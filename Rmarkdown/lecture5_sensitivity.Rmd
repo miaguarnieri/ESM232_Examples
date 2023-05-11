@@ -152,7 +152,7 @@ npar =  length(pnames)
 nsample = 100
 
 parm_quant = randomLHS(nsample, npar)
-colnames(parm_quant)=pnames
+colnames(parm_quant)=pnames #make the column names the same as parameter names
 # choose distributions for parameters - this would come from
 # what you know about the likely range of variation
 # then use our random samples to pick the quantiles
@@ -166,7 +166,7 @@ colnames(parm) = pnames
 # to make it easy to change i'm setting standard deviation / range variation to a variable
 pvar = 10
 
-parm[,"Tmincoeff1"] = qnorm(parm_quant[,"Tmincoeff1"], mean=-0.015, sd=0.015/pvar)
+parm[,"Tmincoeff1"] = qnorm(parm_quant[,"Tmincoeff1"], mean=-0.015, sd=0.015/pvar) #can designate a sd if you know what it will be
 parm[,"Tmincoeff2"] = qnorm(parm_quant[,"Tmincoeff2"], mean=-0.0046, sd=0.0046/pvar)
 
 # for uniform I'm using +- 10%

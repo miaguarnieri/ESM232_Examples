@@ -141,7 +141,7 @@ and then use the parameter with second highest total effect for color
 
 parms = as.data.frame(sens_Catm_Sobol$X)
 colnames(parms)= colnames(X1)
-res = pmap_dbl(parms, Catm)
+res = pmap_dbl(parms, Catm) #can use pmap_dbl because function only returns one value; this one runs the function AND extracts the information as one step
 
 
 sens_Catm_Sobol = sensitivity::tell(sens_Catm_Sobol,res, res.names="ga")
