@@ -194,8 +194,6 @@ see example below..lets add a carrying capacity
 
 ```{r}
 
-
-
 source("../R/dexppop_play.R")
 
 dexppop_play
@@ -234,6 +232,21 @@ both_p = both %>% gather(key="model", value="P", -year)
 ggplot(both_p, aes(year,P, col=model))+geom_point()+labs(y="Population", "years")
 
 # try playing on your own - modify the function in some way
+
+# create parameter list
+initalrabbits= 10
+newparms = list(r=0.03, carry_capacity=300)
+
+#apply solver
+results <- ode(initialrabbits, years, dexppop_play, newparms)
+head(results)
+
+# add more meaningful names
+colnames(results)=c("year","P")
+
+# plot
+ggplot(as.data.frame(results), aes(year,P))+geom_point()+labs(y="Population", "years")
+
 ```
 
 
@@ -334,7 +347,7 @@ result
 
 # used filled contour to plot results
 head(result$conc)
-filled.contour(result$conc, xlab="Time", ylab="Distance")
+filled.contour(result$conc, xlab="Time", ylab="Distance") #time on x, distance on y, color = concentration
 
 # or if you prefer this orientation (Distance on x axis)
 filled.contour(t(result$conc), ylab="Time", xlab="Distance")
@@ -356,6 +369,11 @@ filled.contour(res$qin, xlab="Time", ylab="Distance")
 
 # play with time step, space step and parameters
 
+res <- diff1(initialC = 20, nx = 10, dx = 1, nt = 10, dt = 30, D = 0.006, area = 2)
+
+filled.contour(res$conc, xlab="Time", ylab="Distance")
+
+filled.contour(res$qin, xlab="Time", ylab="Distance")
 
 ```
 

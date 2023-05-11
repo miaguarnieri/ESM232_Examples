@@ -18,9 +18,10 @@ diff1 = function(initialC, nx, dx, nt, dt,  D, area) {
 
   # create a data structure to store concentrations, at nx points and nt times
 	conc = matrix(nrow=nt, ncol=nx)
+	
 	# also keep track of fluxes in an out of each point at each time
-	qin = matrix(nrow=nt, ncol=nx)
-	qout = matrix(nrow=nt, ncol=nx)
+	qin = matrix(nrow=nt, ncol=nx) #how much is going into each box
+	qout = matrix(nrow=nt, ncol=nx) #how much is leaving each box
 	
 	# start everything at zero
 	conc[,] = 0.0
@@ -30,12 +31,12 @@ diff1 = function(initialC, nx, dx, nt, dt,  D, area) {
 	# add an initial pulse of chemical to the first box at the first time
 	conc[1,1] = initialC
 
-	# cycle through time
+	# cycle through time and space (two for-loops, outer is space and inner is time)
 	for ( t in 1:(nt-1)) {
 	  # for each point in time cycle through space
 		for (x in 1:nx) {
-			qout[t,x] = ifelse((x < nx), dt*(0.5*D*area * (conc[t,x]-conc[t,x+1])),0)
-			qin[t,x]  = ifelse((x > 1), dt*(0.5*D*area * (conc[t,x-1]-conc[t,x])),0)
+			qout[t,x] = ifelse((x < nx), dt*(0.5*D*area * (conc[t,x]-conc[t,x+1])),0) #has to be within the # of segments
+			qin[t,x]  = ifelse((x > 1), dt*(0.5*D*area * (conc[t,x-1]-conc[t,x])),0) #has to be after the 1st segment
 			conc[t+1,x] = conc[t,x]+(qin[t,x]-qout[t,x])/(area*dx)
 			}
 		}
