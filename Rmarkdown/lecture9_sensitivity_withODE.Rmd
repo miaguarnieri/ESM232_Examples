@@ -121,7 +121,17 @@ ggplot(spatial_aver, aes(time, cvar))+geom_line()+labs(y="Spatial Variation")
 # plot coefficient of variation (so standard deviation divided by the mean)
 ggplot(spatial_aver, aes(time, 100*sqrt(cvar)/cmean))+geom_line()+labs(y="COV (as percent")
 
+## our stuff
 
+#min value over time
+cmin <- resfast_fixtime$conc %>% 
+  apply(1, min)
+
+spatial_aver <- cbind.data.frame(cvar, cmean, cmin, time=seq(from=1,to=100))
+
+ggplot(spatial_aver, aes(time, cmin)) + 
+  geom_line() + 
+  labs(y="Spatial Variation")
 ```
 
 
