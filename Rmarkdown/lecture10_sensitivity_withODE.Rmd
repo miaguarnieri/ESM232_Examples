@@ -186,6 +186,29 @@ threshyear
 
 # Try it running ODE for different parameters
 
+```{r}
+# come up with first set of sample parameters
+
+Pinitial <- 30
+
+# want to learn about sensitivity to growth rate (r) and carrying capacity 
+# set the number of parameters
+np <- 2000
+K <- rnorm(mean = 400, sd = 55, n = np)
+r <- rnorm(mean = 0.05, sd = 0.01, n = np)
+X1 <- cbind.data.frame(r = r, K = K)
+
+# repeat to get our second set of samples
+np <- 2000
+K <- rnorm(mean = 400, sd = 55, n = np)
+r <- rnorm(mean = 0.05, sd = 0.01, n = np)
+X2 <- cbind.data.frame(r = r, K = K)
+
+# turn any negative values into 0
+X1 <- X1 %>% map_df(pmax, 0.0)
+X2 <- X2 %>% map_df(pmax, 0.0)
+```
+
 
 # Compute our metric for all the parameter sets
 
