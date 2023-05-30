@@ -172,7 +172,11 @@ getcarbon = function(Cinitial, tm, harv, K, r, hfunc) {
 }
 
 # apply this function to all harvest values
-res = harvestr %>% map_dfc(~getcarbon( Cinitial=Cinitial, tm=tm, K=100, r=0.2, hfun=dharvest, harv=.x))
+res = harvestr %>% 
+  map_dfc(~getcarbon( Cinitial=Cinitial, tm=tm, K=100, r=0.2, hfun=dharvest, harv=.x))
+#map_dfc will organize nicely by column
+
+
 # rows are time, columns are carbon for each harvest scenario
 colnames(res)=harvestr
 res=as.data.frame(res)
@@ -238,6 +242,7 @@ X2 = cbind.data.frame(r=r, harv=harv)
 sens_forest = sobolSalt(model = NULL,X1, X2, nboot = 300)
 colnames(sens_forest$X)= c("r","harv")
 # do a quick test
+
 # try it out
 tm = seq(from=1, to=50)
 Cinitial = 1
@@ -270,10 +275,12 @@ tm = seq(from=1, to=50)
 Cinitial = 1
 
 
-allresults = as.data.frame(sens_forest$X) %>% pmap(p_wrapper, K=100, Cinitial=Cinitial, simtimes=tm, func=dharvest)
+allresults = as.data.frame(sens_forest$X) %>% 
+  pmap(p_wrapper, K=100, Cinitial=Cinitial, simtimes=tm, func=dharvest)
 
 # extract out results from pmap into a data frame
-allres = allresults %>% map_dfr(`[`,c("C10","C50"))
+allres = allresults %>% 
+  map_dfr(`[`,c("C10","C50"))
 
 tmp = allres %>% gather(key="metric", value="value")
 ggplot(tmp, aes(metric, value, col=metric))+geom_boxplot()

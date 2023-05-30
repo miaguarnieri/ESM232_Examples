@@ -185,6 +185,25 @@ Think about how you would explore stability here
 
 * can you figure out what the two stable values of forest carbon will be without running the ODE
 
+```{r}
+source("../R/dharvestfixed.R")
+
+
+# for different values of forest biomass
+carbon = seq(from=0, to=1000)
+dcarbon= unlist(carbon %>% 
+                  map(dharvestfixed,Time=NULL, parms=list(r=0.05, K=1000, mincarbon=0, harv=10)))
+
+ggplot(cbind.data.frame(carbon=carbon, dcarbon=dcarbon), aes(carbon, dcarbon)) + 
+  geom_point() + 
+  geom_hline(yintercept = 0, col="red") +
+  labs(y="Derivative\n (Rate of change of forest carbon) (kg/C/year)", 
+       x="Current Forest Carbon Stock (kgC)")
+
+```
+
+
+
 # here's what I did
 
 ```{r stability}
