@@ -39,7 +39,7 @@ gmatrix
 # assign values for fertility for each of the age classes 
 # notes that fertility rates are births per capita (number in class) per
 # time step - time step here is decade - but could be hours
-fert =  c(0,0.4,0.3,0.1,0.01)
+fert =  c(0,0.7,0.6,0.4,0.31)
 
 # enter into our matrix
  gmatrix[1,]=fert
@@ -51,7 +51,7 @@ gmatrix[3,2]=0.8
 gmatrix[4,3]=0.2
 gmatrix[5,4]=0.1
 
-# we als want to to account for the oldest population group - they don't transfer to another group
+# we also want to to account for the oldest population group - they don't transfer to another group
 # but they do die - this will be survivability per time step but they just stay in their class/group
 gmatrix[5,5]=0.1
 
@@ -115,9 +115,9 @@ source("../R/evolve_pop.R")
 # example evolve China pop
 # fertility rates
 F1 = 0.0
-F2 = 0.25/2
-F3 = 0.5/2
-F4 = 0.25/2
+F2 = 1/2
+F3 = 1.5/2
+F4 = 0.5/2
 
 # survivability - based on mortality rates per thousand per decade
 p12 = 1-79/1000 
